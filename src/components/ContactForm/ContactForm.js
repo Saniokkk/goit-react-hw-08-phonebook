@@ -1,18 +1,35 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { Notify } from 'notiflix';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'components/Button';
+import { createContact } from 'redux/operations';
 import style from './ContactForm.module.css'; 
 
 export function ContactForm(props){
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const contacts = useSelector(state => state.contacts.items);
+  const dispatch = useDispatch();
+
 
   const handleSubmit = event => {
     event.preventDefault();
-    props.stateApp(name, number);
-    setName('');
-    setNumber('');    
+    changeStateAfterSubmit(name, number);    
   };
+
+    const changeStateAfterSubmit = (contactName, contactNumber) => {
+    if (contacts.find(contact => contact.name === contactName)) {
+      Notify.warning(`${contactName} is already in contacts`, { color: "red" });
+    } else {
+      setName('');
+      setNumber('');
+      return dispatch(createContact({
+        name: contactName, phone: contactNumber
+      }));      
+    }
+  };
+
+
 
   const handleChange = event => {
     if (event.target.name === 'name') {
@@ -56,6 +73,3 @@ export function ContactForm(props){
       </form>
     );
   }
-ContactForm.propTypes = {
-  stateApp: PropTypes.func.isRequired,
-}

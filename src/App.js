@@ -1,12 +1,12 @@
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { Section } from 'components/Section';
 import { ContactList } from 'components/Contacts';
 import { ContactForm } from 'components/ContactForm';
 import { filterContacts } from 'redux/contactsReducer';
 import { useEffect } from 'react';
-import { createContact, getContactList, removeContact } from 'redux/opirations';
+import { getContactList, removeContact } from 'redux/operations';
 
 function App() {
   const contacts = useSelector(state => state.contacts.items);
@@ -20,17 +20,6 @@ function App() {
   const handleDeleteBtn = event => {
     const currentId = event.target.closest('li').id;    
     dispatch(removeContact(currentId));
-  };
-
-  const changeStateAfterSubmit = (contactName, contactNumber) => {
-    if (contacts.find(contact => contact.name === contactName)) {
-      toast.warn(`${contactName} is already in contacts`, { color: "red" });
-    } else {
-      return dispatch(createContact({
-        name: contactName, phone: contactNumber
-      }));
-      
-    }
   };
 
   const handleChange = event => {
@@ -48,7 +37,7 @@ function App() {
     return (
       <>
         <Section title="Phone book">
-          <ContactForm stateApp={changeStateAfterSubmit} />
+          <ContactForm  />
         </Section>
         <Section title="Contacts">
           <ContactList
