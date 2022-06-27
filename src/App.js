@@ -1,12 +1,17 @@
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { Routes, Route } from "react-router-dom";
+import { ThemeProvider } from 'react-bootstrap';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Section } from 'components/Section';
 import { ContactList } from 'components/Contacts';
 import { ContactForm } from 'components/ContactForm';
 import { filterContacts } from 'redux/contactsReducer';
-import { useEffect } from 'react';
 import { getContactList, removeContact } from 'redux/operations';
+import Header from 'components/Header';
+import ContactsPage from 'pages/ContactsPage';
+import LoginPage from 'pages/LoginPage';
+import RegisterPage from 'pages/RegisterPage';
 
 function App() {
   const contacts = useSelector(state => state.contacts.items);
@@ -36,21 +41,29 @@ function App() {
 
     return (
       <>
-        <Section title="Phone book">
-          <ContactForm  />
-        </Section>
-        <Section title="Contacts">
-          <ContactList
-            onChange={handleChange}
-            handleBtn={handleDeleteBtn}
-            filterContacts={contactsFilter()}
-            value={filter}
-          />
-        </Section>
-        <ToastContainer />
+        
+        <Routes>          
+          <Route path='/' element={<Header />}>
+            <Route path='/register' element={<RegisterPage />}></Route>
+            <Route path='/contacts' element={<ContactsPage />}></Route>
+            <Route path='/login' element={<LoginPage />}></Route>
+          </Route>
+        </Routes>
       </>
     );
   }
 
 
 export default App;
+
+        // <Header />
+        // <ThemeProvider breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}>
+        //   <ContactForm  />          
+        //     <ContactList
+        //       onChange={handleChange}
+        //       handleBtn={handleDeleteBtn}
+        //       filterContacts={contactsFilter()}
+        //       value={filter}
+        //     />          
+        //   <ToastContainer />
+        // </ThemeProvider>;

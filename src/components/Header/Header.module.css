@@ -1,0 +1,19 @@
+.header{
+    width: 100%;    
+    background: rgb(170, 192, 202);
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav{
+
+}
+
+.navLink{
+    border: 1px solid;
+    padding: 15px;
+}
+
+.logo{
+    
+}

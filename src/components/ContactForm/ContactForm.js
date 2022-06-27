@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'components/Button';
 import { createContact } from 'redux/operations';
 import style from './ContactForm.module.css'; 
+import { Section } from 'components/Section';
 
 export function ContactForm(props){
   const [name, setName] = useState('');
@@ -40,7 +41,8 @@ export function ContactForm(props){
     }
   };
   
-    return (
+  return (
+    <Section title="Phone book">       
       <form className={style.form} onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input
@@ -71,5 +73,6 @@ export function ContactForm(props){
           onClick={handleChange}
         />
       </form>
+    </Section>
     );
   }
