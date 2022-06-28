@@ -1,1 +1,1 @@
-export { ContactForm } from './ContactForm.js';
+export { ContactForm } from './ContactForm';

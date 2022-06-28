@@ -1,16 +1,3 @@
-// import { NavLink, Link } from 'react-router-dom';
-// import styles from './Header.module.css';
-
-// export const Header = () =>{
-//     return (<header className={styles.header}>
-//                 <Link className={styles.logo} to="/"> Phone Book</Link>
-//                 <nav className={styles.nav}>
-//                     <NavLink className={styles.navLink} to="/">Auth</NavLink>
-//                     <NavLink className={styles.navLink} to="/">Registration</NavLink>
-//                 </nav>
-//             </header>)
-// }
-
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -24,35 +11,27 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ContactPhoneTwoToneIcon from '@mui/icons-material/ContactPhoneTwoTone';
-import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom'; 
+import { useNavigate, Outlet } from 'react-router-dom'; 
 
 const pages = ['Register', 'Login', 'Contacts'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
   
   const handleClickNavMenu = (event) => {
-        const goTo = event?.currentTarget?.innerText?.toLocaleLowerCase()
-    navigate(goTo)
-  }
-  const handleOpenNavMenu = (event) => {
-    console.log(event.currentTarget.innerText);
     const goTo = event?.currentTarget?.innerText?.toLocaleLowerCase()
     navigate(goTo)
-    
-    setAnchorElNav(event.currentTarget);
-  };
+  }
+
+  const clickToHome = () => {
+    navigate('/');
+  }
+
   const handleOpenUserMenu = (event) => {
     console.log(event.currentTarget)
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -60,48 +39,25 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="absolute" >
+    <>
+    <AppBar position="static" sx={{background: 'rgb(146, 80 , 130)'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-          {/* <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
+          <Button sx={{ color: "white", fontSize: 20, }} onClick={clickToHome} component="button">
+            <Typography
+              sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          > */}
-          <Button sx={{ color: "white", fontSize: 20, }} component="a">
-            Phonebook
-          {/* </Typography> */}
-            <ContactPhoneTwoToneIcon sx={{ display: 'flex', ml: 1, size: 'xl', color: 'purple' }} />
-            </Button>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: 'none', sm: 'inline',},
+              fontSize: 20,
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
-            }}
-          >
-            By
-          </Typography>
+            }}>Phonebook</Typography>
+            <ContactPhoneTwoToneIcon sx={{ display: 'flex', ml: 0, size: 'xl', color: 'rgb(194, 120, 118)',}} />
+          </Button>
           <Box sx={{ flexGrow: 1, display: 'flex', }}>
             {pages.map((page) => (
               <Button
@@ -146,6 +102,8 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
+    <Typography component={'section'}><Outlet /></Typography>     
+    </>
   );
 };
 export default ResponsiveAppBar;
