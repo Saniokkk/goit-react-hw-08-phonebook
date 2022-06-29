@@ -19,7 +19,6 @@ export function ContactForm(props){
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(event)
     changeStateAfterSubmit(name, number);    
   };
 
@@ -48,12 +47,11 @@ export function ContactForm(props){
   };
   
   return (
-      // <Section title="Phone book">
         <Box          
           component="form"
           onSubmit={handleSubmit}
           sx={{
-            '& > :not(style)': { m: 1, width: '100%' },
+            '& > :not(style)': { mb: 2, width: '100%' },
               maxWidth: 400,
               minHeight: 150,
               margin: '20px auto',
@@ -62,8 +60,8 @@ export function ContactForm(props){
               padding: '20px',
               backgroundColor: 'rgba(255, 255, 255, 0.7)',
               alignItems: 'center',
+              boxSizing: 'border-box',
           }}          
-          // autoComplete="off"          
         >
           <Typography sx={{fontSize: 28}} >Create contact</Typography>
           <TextField
@@ -97,9 +95,7 @@ export function ContactForm(props){
           Save
         </LoadingButton>
         </Box>
-      // </Section>
-  );
- 
+    );
   }
 //  return (
 //     <Section title="Phone book">       

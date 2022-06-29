@@ -4,44 +4,61 @@ import { InputFilter } from './InputFilter';
 import { Section } from 'components/Section';
 import style from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getContactList, removeContact } from 'redux/operations';
 import { filterContacts } from 'redux/contactsReducer';
 import { Box, TextField } from '@mui/material';
 import { Typography } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import CommentIcon from '@mui/icons-material/Comment';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 export const ContactList = () => {
   const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
+  const [filterContactList, setFilterContactList] = useState(contacts);
   // const match = useMatch();
-  // console.log(match)
-
+  console.log(contacts)
+  console.log(filterContactList)
   useEffect(() => {
-    dispatch(getContactList())
+    dispatch(getContactList());
   }, [dispatch]);
-    
-  const handleDeleteBtn = event => {
-    const currentId = event.target.closest('li').id;    
-    dispatch(removeContact(currentId));
-  };
 
-  const handleChange = event => {
-    const {value } = event.target;    
-    dispatch(filterContacts(value));    
-  };
-  
-  const contactsFilter = () => {      
+  const contactsFilter = () => {   
     return contacts.filter(({ name }) => {     
       return name.toLowerCase().includes(filter.toLowerCase().trim());
     });
   };
+  
+  useEffect(() => {
+      setFilterContactList(contactsFilter());
+  }, [filter])
+  
+  useEffect(() => {
+      setFilterContactList(contacts);
+  },[contacts])
+    
+  const handleDeleteBtn = event => {
+    const currentId = event.currentTarget.id;    
+    dispatch(removeContact(currentId));
+  };
+
+  const handleChange = event => {
+    const { value } = event.target;
+    dispatch(filterContacts(value));
+  };
+  
 
   return (
     <>
       <Box
         sx={{
-          '& > :not(style)': { m: 1, width: '100%' },
+          '& > :not(style)': { mb: 2, width: '100%' },
             maxWidth: 400,
             minHeight: 150,
             margin: '20px auto',
@@ -50,11 +67,12 @@ export const ContactList = () => {
             padding: '20px',
             backgroundColor: 'rgba(255, 255, 255, 0.7)',
             alignItems: 'center',
+            boxSizing: 'border-box',
         }}  
       >
         <Typography sx={{ fontSize: 28 }} >Contacts</Typography>
         <TextField
-          sx={{color: 'rgb(194, 120, 118)',width: '80%'}}
+          sx={{color: 'rgb(194, 120, 118)', display: 'inline-block', width: '50%'}}
           id="contactFilter"
           label="Filter"
           value={filter}
@@ -64,7 +82,23 @@ export const ContactList = () => {
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           fullWidth
         />
+        <List sx={{ width: '100%', maxWidth: 360, }}>
+          { filterContactList && filterContactList.map(({ name, phone, id }) => (
+            <ListItem
+              key={id}
+              disableGutters
+              secondaryAction={
+                <IconButton aria-label="comment" id={id} onClick={handleDeleteBtn}>
+                  <DeleteIcon />
+                </IconButton>
+              }
+            >
+              <ListItemText primary={`${name}:`} secondary={phone} />
+            </ListItem>
+          ))}
+        </List>
       </Box>
+      
     </>
   )
 }
@@ -93,9 +127,9 @@ export const ContactList = () => {
 //   );
 // };
 
-ContactList.propTypes = {
-  value: PropTypes.string.isRequired,
-  handleBtn: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  filterContacts: PropTypes.array.isRequired,
-};
+// ContactList.propTypes = {
+//   value: PropTypes.string.isRequired,
+//   handleBtn: PropTypes.func.isRequired,
+//   onChange: PropTypes.func.isRequired,
+//   filterContacts: PropTypes.array.isRequired,
+// };
