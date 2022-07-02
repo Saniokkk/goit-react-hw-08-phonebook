@@ -16,7 +16,7 @@ export const RegistrationForm = () => {
     const dispatch = useDispatch();
 
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
-        mode: 'onBlur',
+        mode: 'onChange',
         defaultValues: {
             name: '',
             email: '',
@@ -58,8 +58,8 @@ export const RegistrationForm = () => {
                 {...register("name", {
                     required: "This field is required", maxLength: 20,
                     pattern: {
-                        value: /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/i,
-                        message: "Must contain letters, numbers, "
+                        value: /^[а-яёa-z]|[А-Яа-яЁёЇїІіЄєҐґ']+$/iu,
+                        message: "Must contain 1-st letters, numbers"
                 } })}
                 color="secondary"
                 label="Name"
@@ -71,9 +71,9 @@ export const RegistrationForm = () => {
             <TextField
                 {...register("email", {
                     required: "This field is required",
-                    maxLength: 20,
+                    maxLength: 26,
                     pattern: {
-                        value: /.+@.+\..+/i,
+                        value: /^((([0-9A-Za-z]{1}[-0-9A-z\.]{0,30}[0-9A-Za-z]?)|([0-9А-Яа-я]{1}[-0-9А-я\.]{0,30}[0-9А-Яа-я]?))@([-A-Za-z]{1,}\.){1,}[-A-Za-z]{2,})$/i,
                         message: "Email must require contain @ and . "
                 } })}
                 color="secondary"

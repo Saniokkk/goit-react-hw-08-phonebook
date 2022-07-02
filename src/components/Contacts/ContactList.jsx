@@ -76,8 +76,6 @@ export const ContactList = () => {
           label="Filter"
           value={filter}
           onChange={handleChange}
-          autoFocus
-          required
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           fullWidth
         />

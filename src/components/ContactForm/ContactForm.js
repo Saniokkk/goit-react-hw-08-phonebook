@@ -12,13 +12,11 @@ import { useForm } from 'react-hook-form';
 
 
 export function ContactForm(props){
-  // const [name, setName] = useState('');
-  // const [number, setNumber] = useState('');
   const contacts = useSelector(state => state.contacts.items);
   const dispatch = useDispatch();
 
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
-        mode: 'onBlur',
+        mode: 'onChange',
         defaultValues: {
             name: '',
             number: '',
@@ -49,34 +47,38 @@ export function ContactForm(props){
               backgroundColor: 'rgba(255, 255, 255, 0.7)',
               alignItems: 'center',
               boxSizing: 'border-box',
-          }}          
+          }}
         >
           <Typography sx={{fontSize: 28}} >Create contact</Typography>
           <TextField
             {...register("name", {
               required: "This field is required", maxLength: 20,
               pattern: {
-                  value: /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/i,
+                  value: /^[а-яёa-z]|[А-Яа-яЁёЇїІіЄєҐґ']+$/iu,
                   message: "Must contain letters, numbers, "
             } })}
             sx={{color: 'rgb(194, 120, 118)',width: '80%'}}
-            // id="contactName"
             label="Name"
-            // value={name}
-            // onChange={handleChange}
             autoFocus
-            required
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            // required
+            error={errors?.name?.message ? true : false}
+            helperText={errors?.name?.message}
           />
           <TextField
                 {...register("number", {
                     required: "This field is required",
-                    minLength: {
-                        value: 6,
-                        message: "Min length password is 6"}
+                    // minLength: {
+                    //     value: 6,
+                    //     message: "Min length password is 6"
+                    // },
+                  pattern: {
+                    value: /(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){6,14}(\s*)?/iu,
+                    message: "Must include only numbers, - , () ... length 6-14"
+                    }
                 })}
             label="Number"
-            required   
+            error={errors?.number?.message ? true : false}
+            helperText={errors?.number?.message}
             fullWidth   
           />
           <LoadingButton

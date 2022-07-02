@@ -14,24 +14,13 @@ import { useForm } from 'react-hook-form';
 export const LogIn = () => {
     const dispatch = useDispatch();
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
-        mode: 'onBlur',
+        mode: 'onChange',
 });
 
     const onSubmit = userData => {
         dispatch(loginUser(userData))
         reset();
     };
-
-    // const handleChange = event => {
-    //     console.log(event.target.id)
-    //     if (event.target.name === 'email') {
-    //     setEmail(event.target.value)
-    //     }
-    //     if (event.target.name === 'password') {
-    //     setPassword(event.target.value)
-    //     }
-    // };
-
 
     return (
         <Box          
@@ -58,7 +47,7 @@ export const LogIn = () => {
                 required: "This field is required",
                 maxLength: 20,
                 pattern: {
-                    value: /.+@.+\..+/i,
+                    value: /^((([0-9A-Za-z]{1}[-0-9A-z\.]{0,30}[0-9A-Za-z]?)|([0-9А-Яа-я]{1}[-0-9А-я\.]{0,30}[0-9А-Яа-я]?))@([-A-Za-z]{1,}\.){1,}[-A-Za-z]{2,})$/i,
                     message: "Email must require contain @ and . "
             } })}
             label="Email"
