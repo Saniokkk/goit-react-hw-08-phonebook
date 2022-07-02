@@ -1,7 +1,7 @@
 import { createSlice, createReducer } from '@reduxjs/toolkit'
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import { Report } from 'notiflix/build/notiflix-report-aio';
-import { getContactList, createContact, removeContact } from './operations';
+import { getContactList, createContact, removeContact } from './contactsOperations';
 
 
 

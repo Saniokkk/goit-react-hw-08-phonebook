@@ -1,51 +1,61 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Notify } from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
-import { createContact } from 'redux/operations';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
-import { Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { Checkbox, FormControlLabel, IconButton, InputAdornment, Typography } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { registrationUser } from 'redux/userOperations';
 
 
 export const RegistrationForm = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
+    // const [name, setName] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [password, setPassword] = useState('');
+    // const [repeatPassword, setRepeatPassword] = useState('');
     const [checked, setChecked] = useState(false);
-    
-    const handleSubmit = event => {
-    event.preventDefault();
+    const dispatch = useDispatch();
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+        defaultValues: {
+            name: '',
+            email: '',
+            password: '',
+    }});
+
+    const onSubmit = dataUser => {
+        dispatch(registrationUser(dataUser));
     };
     
-    const handleChange = event => {
-        console.log(event.target.id)
-        if (event.target.id === 'name') {
-            setName(event.target.value)
-        }
-        if (event.target.id === 'email') {
-            setEmail(event.target.value)
-        }
-        if (event.target.id === 'password') {
-            setPassword(event.target.value)
-        }
-        if (event.target.id === 'repeatPassword') {
-            setRepeatPassword(event.target.value)
-        }
-    };
+    useEffect(() => {console.log(watch()) },[watch])
+    
+    // const handleChange = event => {
+    //     console.log(event.target.name)
+    //     if (event.target.name === 'name') {
+    //         setName(event.target.value)
+    //     }
+    //     if (event.target.name === 'email') {
+    //         setEmail(event.target.value)
+    //     }
+    //     if (event.target.name === 'password') {
+    //         setPassword(event.target.value)
+    //     }
+    //     if (event.target.name === 'repeatPassword') {
+    //         setRepeatPassword(event.target.value)
+    //     }
+    // };
 
     const handleCheckbox = event => {
         const { checked } = event.target;
         setChecked(checked)
     }
-
     return (
         <Box          
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{
                 '& > :not(style)': { mb: 2, width: '100%' },
                 maxWidth: 400,
@@ -58,50 +68,77 @@ export const RegistrationForm = () => {
                 alignItems: 'center',
                 boxSizing: 'border-box',
             }}          
-            // autoComplete="off"          
             >
+                <p>{errors?.number?.message}</p>
             <Typography sx={{ fontSize: 28, textAlign: 'center' }} >Sign up</Typography>
             <Typography sx={{ fontSize: 14, textAlign: 'center' }} >using your email address</Typography>
-            <TextField
+            <TextField 
+                {...register("name", {
+                    required: "This field is required", maxLength: 20,
+                    pattern: {
+                        value: /[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*/i,
+                        message: "Must contain letters, numbers, "
+                } })}
                 color="secondary"
-                id="name"
                 label="Name"
-                value={name}
-                onChange={handleChange}
                 autoFocus
+                error={errors?.name?.message ? true : false}
+                helperText={errors.name?.message}
                 required
-                pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-                fullWidth
             />
             <TextField
+                {...register("email", {
+                    required: "This field is required",
+                    maxLength: 20,
+                    pattern: {
+                        value: /.+@.+\..+/i,
+                        message: "Email must require contain @ and . "
+                } })}
                 color="secondary"
-                id="email"
                 label="Email"
-                value={email}
-                onChange={handleChange}
+                error={errors?.email?.message ? true : false}
+                helperText={errors?.email?.message}
                 required
-                pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-                fullWidth
             />
             <TextField
+                {...register("password", {
+                    required: "This field is required",
+                    minLength: {
+                        value: 6,
+                        message: "Min length password is 6"}
+                })}
                 color="secondary"
                 type='password'
-                id="password"
                 label="Password"
-                value={password}
-                onChange={handleChange}      
-                required   
-                fullWidth   
+                error={errors?.password?.message ? true : false}
+                helperText={errors?.password?.message}
+                required
+                // InputProps={{
+                //     endAdornment: (
+                //       <InputAdornment position="end">
+                //         <IconButton
+                //           aria-label="toggle password visibility"
+                //         //   onClick={handleClickShowPassword}
+                //           edge="end"
+                //         >
+                //           {values.showPassword ? (
+                //             <VisibilityOff />
+                //           ) : (
+                //             <Visibility />
+                //           )}
+                //         </IconButton>
+                //       </InputAdornment>
+                //     ),
+                //   }}
             />
             <TextField
                 color="secondary"
                 type='password'
-                id="repeatPassword"
+                name="repeatPassword"
                 label="Repeat password"
-                value={repeatPassword}
-                onChange={handleChange}      
-                required   
-                fullWidth
+                required
+                error={errors?.password?.message ? true : false}
+                helperText={errors?.password?.message}     
             />
             <FormControlLabel control={<Checkbox color="secondary" onChange={handleCheckbox} />} label="I agree with..." />
             <LoadingButton

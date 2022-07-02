@@ -5,7 +5,7 @@ import { Section } from 'components/Section';
 import style from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getContactList, removeContact } from 'redux/operations';
+import { getContactList, removeContact } from 'redux/contactsOperations';
 import { filterContacts } from 'redux/contactsReducer';
 import { Box, TextField } from '@mui/material';
 import { Typography } from '@mui/material';

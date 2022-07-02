@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Notify } from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
-import { createContact } from 'redux/operations';
+import { createContact } from 'redux/contactsOperations';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';

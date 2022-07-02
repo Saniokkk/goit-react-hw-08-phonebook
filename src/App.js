@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ContactList } from 'components/Contacts';
 import { ContactForm } from 'components/ContactForm';
 import { filterContacts } from 'redux/contactsReducer';
-import { getContactList, removeContact } from 'redux/operations';
+import { getContactList, removeContact } from 'redux/contactsOperations';
 import Header  from 'components/Header';
 import ContactsPage from 'pages/ContactsPage';
 import LoginPage from 'pages/LoginPage';
