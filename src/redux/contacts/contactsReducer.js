@@ -18,7 +18,8 @@ export const filterSlice = createSlice({
 
 const itemsReducer = createReducer([],{
     [getContactList.pending]: (_, { payload }) => { Loading.pulse() },
-    [getContactList.fulfilled]: (_, { payload }) => {
+    [getContactList.fulfilled]: (state, { payload }) => {
+        console.log(payload);
         Loading.remove();
         return payload;
     },
@@ -50,10 +51,12 @@ const itemsReducer = createReducer([],{
     },
     [removeContact.pending]: (state, { payload }) => { Loading.pulse() },
     [removeContact.fulfilled]: (state, { payload }) => {
+        console.log(state)
         const contactList = state.filter(item => {
             return item.id !== payload.id;
         })
-        Loading.remove()
+        Loading.remove();
+        console.log(contactList)
         return contactList;
     },
     [removeContact.rejected]: (state, { payload }) => { Loading.remove() 

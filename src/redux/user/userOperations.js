@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { API } from '../services/API.js';
+import { API } from '../../services/API.js';
 
 export const registrationUser = createAsyncThunk(
     'user/registrationUser',
@@ -28,8 +28,13 @@ export const loginUser = createAsyncThunk(
 export const currentUser = createAsyncThunk(
     'user/currentUser',
     async (_, thunkAPI) => {
+        const token = thunkAPI.getState().auth.token;
+        if (token === null) {
+        console.log('Токена нет, уходим из fetchCurrentUser');
+        return thunkAPI.rejectWithValue();
+        }
         try {
-            const token = thunkAPI.getState().auth.token;
+            console.log(token)
             const data = await API.currentUser(token);
             return data;
         } catch(error) {

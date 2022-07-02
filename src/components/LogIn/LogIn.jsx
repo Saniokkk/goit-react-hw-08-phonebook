@@ -1,40 +1,36 @@
 import { useState } from 'react';
 import { Notify } from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
-import { createContact } from 'redux/contactsOperations';
+import { createContact } from 'redux/contacts/contactsOperations';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 import { Typography } from '@mui/material';
-import { loginUser } from 'redux/userOperations';
+import { loginUser } from 'redux/user/userOperations';
 import { useForm } from 'react-hook-form';
 
 
 export const LogIn = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-        const { register, handleSubmit, watch, formState: { errors } } = useForm({
-        defaultValues: {
-            name: '',
-            password: '',
-    }});
-
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
+        mode: 'onBlur',
+});
 
     const onSubmit = userData => {
         dispatch(loginUser(userData))
+        reset();
     };
 
-    const handleChange = event => {
-        console.log(event.target.id)
-        if (event.target.name === 'email') {
-        setEmail(event.target.value)
-        }
-        if (event.target.name === 'password') {
-        setPassword(event.target.value)
-        }
-    };
+    // const handleChange = event => {
+    //     console.log(event.target.id)
+    //     if (event.target.name === 'email') {
+    //     setEmail(event.target.value)
+    //     }
+    //     if (event.target.name === 'password') {
+    //     setPassword(event.target.value)
+    //     }
+    // };
 
 
     return (
@@ -70,7 +66,7 @@ export const LogIn = () => {
             helperText={errors?.email?.message}
             autoFocus
             required
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         />
         <TextField
             {...register("password", {

@@ -32,7 +32,7 @@ async function logoutUser(token) {
 }
 
 async function getContacts(token) {
-    const response = await axios.get('/contacts', null, {
+    const response = await axios.get('/contacts', {
         headers: {
             Authorization: token,
         },
@@ -50,7 +50,7 @@ async function addContact(obj, token) {
 }
 
 async function deleteContact(id, token) {
-        const response = await axios.delete(`/contacts/${id}`, null, {
+        const response = await axios.delete(`/contacts/${id}`, {
         headers: {
             Authorization: token,
         },

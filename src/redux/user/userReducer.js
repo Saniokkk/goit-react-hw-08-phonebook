@@ -4,7 +4,6 @@ import { registrationUser, loginUser, currentUser, logoutUser } from './userOper
 
 // import { Report } from 'notiflix/build/notiflix-report-aio';
 
-
 const initialState = {
     user: {
         name: null,
@@ -20,7 +19,7 @@ export const userReducer = createReducer(initialState, {
     [registrationUser.fulfilled]: (state, { payload }) => {
         console.log("fulfilled", payload)
         Loading.remove();
-        return { ...state, isAuth: true, payload }
+        return { ...state, isAuth: true, ...payload }
     },
     [registrationUser.rejected]: (_, { payload }) => {
         console.log(payload)
@@ -42,15 +41,16 @@ export const userReducer = createReducer(initialState, {
     
     [currentUser.pending]:(state, {payload}) => {Loading.pulse()},
     [currentUser.fulfilled]: (state, { payload }) => {
+        console.log(payload)
         Loading.remove();
-        return { ...state, isAuth: true, ...payload }
+        return { ...state, isAuth: true, user: {...payload} }
     },
     [currentUser.rejected]: (state, { payload }) => { Loading.remove(); },
     
     [logoutUser.pending]:(state, {payload}) => {Loading.pulse()},
     [logoutUser.fulfilled]: (state, { payload }) => {
         Loading.remove();
-        return { ...state, isAuth: null, payload }
+        return { ...state, ...initialState }
     },
     [logoutUser.rejected]:(state, {payload}) => { Loading.remove();},
 })

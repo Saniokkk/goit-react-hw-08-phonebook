@@ -8,18 +8,15 @@ import { Checkbox, FormControlLabel, IconButton, InputAdornment, Typography } fr
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-import { registrationUser } from 'redux/userOperations';
+import { registrationUser } from 'redux/user/userOperations';
 
 
 export const RegistrationForm = () => {
-    // const [name, setName] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [repeatPassword, setRepeatPassword] = useState('');
     const [checked, setChecked] = useState(false);
     const dispatch = useDispatch();
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
+        mode: 'onBlur',
         defaultValues: {
             name: '',
             email: '',
@@ -28,26 +25,11 @@ export const RegistrationForm = () => {
 
     const onSubmit = dataUser => {
         dispatch(registrationUser(dataUser));
+        reset();
     };
     
     useEffect(() => {console.log(watch()) },[watch])
     
-    // const handleChange = event => {
-    //     console.log(event.target.name)
-    //     if (event.target.name === 'name') {
-    //         setName(event.target.value)
-    //     }
-    //     if (event.target.name === 'email') {
-    //         setEmail(event.target.value)
-    //     }
-    //     if (event.target.name === 'password') {
-    //         setPassword(event.target.value)
-    //     }
-    //     if (event.target.name === 'repeatPassword') {
-    //         setRepeatPassword(event.target.value)
-    //     }
-    // };
-
     const handleCheckbox = event => {
         const { checked } = event.target;
         setChecked(checked)
@@ -76,7 +58,7 @@ export const RegistrationForm = () => {
                 {...register("name", {
                     required: "This field is required", maxLength: 20,
                     pattern: {
-                        value: /[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*/i,
+                        value: /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/i,
                         message: "Must contain letters, numbers, "
                 } })}
                 color="secondary"
@@ -98,7 +80,7 @@ export const RegistrationForm = () => {
                 label="Email"
                 error={errors?.email?.message ? true : false}
                 helperText={errors?.email?.message}
-                required
+                // required
             />
             <TextField
                 {...register("password", {
@@ -131,7 +113,7 @@ export const RegistrationForm = () => {
                 //     ),
                 //   }}
             />
-            <TextField
+            {/* <TextField
                 color="secondary"
                 type='password'
                 name="repeatPassword"
@@ -139,7 +121,7 @@ export const RegistrationForm = () => {
                 required
                 error={errors?.password?.message ? true : false}
                 helperText={errors?.password?.message}     
-            />
+            /> */}
             <FormControlLabel control={<Checkbox color="secondary" onChange={handleCheckbox} />} label="I agree with..." />
             <LoadingButton
                 type='submit'

@@ -5,8 +5,8 @@ import { Section } from 'components/Section';
 import style from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getContactList, removeContact } from 'redux/contactsOperations';
-import { filterContacts } from 'redux/contactsReducer';
+import { getContactList, removeContact } from 'redux/contacts/contactsOperations';
+import { filterContacts } from 'redux/contacts/contactsReducer';
 import { Box, TextField } from '@mui/material';
 import { Typography } from '@mui/material';
 import List from '@mui/material/List';
@@ -19,12 +19,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 export const ContactList = () => {
   const contacts = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(state => state.contacts.filter); 
   const dispatch = useDispatch();
   const [filterContactList, setFilterContactList] = useState(contacts);
-  // const match = useMatch();
-  console.log(contacts)
-  console.log(filterContactList)
+  
+
   useEffect(() => {
     dispatch(getContactList());
   }, [dispatch]);
@@ -83,7 +82,7 @@ export const ContactList = () => {
           fullWidth
         />
         <List sx={{ width: '100%', maxWidth: 360, }}>
-          { filterContactList && filterContactList.map(({ name, phone, id }) => (
+          { filterContactList && filterContactList.map(({ name, number, id }) => (
             <ListItem
               key={id}
               disableGutters
@@ -93,7 +92,7 @@ export const ContactList = () => {
                 </IconButton>
               }
             >
-              <ListItemText primary={`${name}:`} secondary={phone} />
+              <ListItemText primary={`${name}:`} secondary={number} />
             </ListItem>
           ))}
         </List>
