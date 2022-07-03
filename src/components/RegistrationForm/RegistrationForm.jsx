@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Notify } from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -9,10 +8,13 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { registrationUser } from 'redux/user/userOperations';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 export const RegistrationForm = () => {
     const [checked, setChecked] = useState(false);
+    const [showPassword, setShowPassword] = useState(true);
     const dispatch = useDispatch();
 
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
@@ -30,6 +32,9 @@ export const RegistrationForm = () => {
     
     useEffect(() => {console.log(watch()) },[watch])
     
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    }
     const handleCheckbox = event => {
         const { checked } = event.target;
         setChecked(checked)
@@ -90,28 +95,28 @@ export const RegistrationForm = () => {
                         message: "Min length password is 6"}
                 })}
                 color="secondary"
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 label="Password"
                 error={errors?.password?.message ? true : false}
                 helperText={errors?.password?.message}
                 required
-                // InputProps={{
-                //     endAdornment: (
-                //       <InputAdornment position="end">
-                //         <IconButton
-                //           aria-label="toggle password visibility"
-                //         //   onClick={handleClickShowPassword}
-                //           edge="end"
-                //         >
-                //           {values.showPassword ? (
-                //             <VisibilityOff />
-                //           ) : (
-                //             <Visibility />
-                //           )}
-                //         </IconButton>
-                //       </InputAdornment>
-                //     ),
-                //   }}
+                InputProps={{
+                    endAdornment: (
+                    <InputAdornment position="end">
+                    <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                    >
+                        {showPassword ? (
+                        <VisibilityOff />
+                        ) : (
+                        <Visibility />
+                        )}
+                    </IconButton>
+                    </InputAdornment>
+                ),
+                }}
             />
             {/* <TextField
                 color="secondary"

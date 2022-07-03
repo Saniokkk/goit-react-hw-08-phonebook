@@ -14,9 +14,7 @@ import ContactPhoneTwoToneIcon from '@mui/icons-material/ContactPhoneTwoTone';
 import { useNavigate, Outlet } from 'react-router-dom'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from 'redux/user/userOperations';
-
-
-const pages = ['Register', 'Login', 'Contacts'];
+// import InsertEmoticonSharpIcon from '@mui/icons-material/InsertEmoticonSharp';
 
 const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -25,16 +23,14 @@ const ResponsiveAppBar = () => {
   const isAuth = useSelector(state => state.auth.isAuth);
   const navigate = useNavigate();
   const [navMenu, setNavMenu] = React.useState([]);
-  const [userMenu, setUserMenu] = React.useState([]);
+  // const [userMenu, setUserMenu] = React.useState([]);
   const dispatch = useDispatch();
 
     React.useEffect(() => {
     if (isAuth) {
       setNavMenu(['Contacts']);
-      setUserMenu(['Your contacts', 'Logout']);
     } else {
       setNavMenu(['Register', 'Login']);
-      setUserMenu(['Login']);
     }
   }, [isAuth]);
   
@@ -97,11 +93,12 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
-          {isAuth && <Typography mr={2}>Hello { nameUser }</Typography>}
+          {isAuth && <Typography mr={2} sx={{fontSize: 22,}}>Hello { nameUser }</Typography>}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, size: "large" }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  {/* <InsertEmoticonSharpIcon sx={{size: "large"}} ></InsertEmoticonSharpIcon> */}
               </IconButton>
             </Tooltip>
                 {isAuth

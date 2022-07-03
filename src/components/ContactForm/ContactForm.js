@@ -15,7 +15,7 @@ export function ContactForm(props){
   const contacts = useSelector(state => state.contacts.items);
   const dispatch = useDispatch();
 
-    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         mode: 'onChange',
         defaultValues: {
             name: '',
@@ -52,7 +52,7 @@ export function ContactForm(props){
           <Typography sx={{fontSize: 28}} >Create contact</Typography>
           <TextField
             {...register("name", {
-              required: "This field is required", maxLength: 20,
+              required: "This field is required", maxLength: 30,
               pattern: {
                   value: /^[а-яёa-z]|[А-Яа-яЁёЇїІіЄєҐґ']+$/iu,
                   message: "Must contain letters, numbers, "
@@ -79,7 +79,6 @@ export function ContactForm(props){
             label="Number"
             error={errors?.number?.message ? true : false}
             helperText={errors?.number?.message}
-            fullWidth   
           />
           <LoadingButton
             type='submit'

@@ -13,13 +13,10 @@ const HomePage = () => {
   }
     return (
         <Box
+        position='relative'
         component="div"
         sx={{
             '& > :not(style)': { mb: 2, width: '100%' },
-            // top: 0,
-            // bottom: 0,
-            // right: 0,
-            // left: 0,
             maxWidth: 800,
             minHeight: 300,
             margin: '20px auto',
@@ -37,14 +34,16 @@ const HomePage = () => {
             <Box component="div"
                 sx={{
                 '& > :not(style)': { mr: 3, width: '20%' },
-                margin: '20px auto',
-
+                display: 'flex',
+                justifyContent: 'center',
+                borderRadius: 1,
+                alignItems: 'center'
             }}
             >
                 <Button
                     // key="page"
                     onClick={handleClickNavMenu}
-                    sx={{color: 'white', bgcolor: 'rgb(146, 80 , 130)', '&:hover': { bgcolor: 'rgb(194, 120, 118)'}, display: 'inline-block', }}
+                    sx={{color: 'white', bgcolor: 'rgb(146, 80 , 130)', '&:hover': { bgcolor: 'rgb(194, 120, 118)'}, }}
                     >
                     Register
                 </Button>
