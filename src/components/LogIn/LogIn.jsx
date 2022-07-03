@@ -12,7 +12,7 @@ import Visibility from '@mui/icons-material/Visibility';
 
 export const LogIn = () => {
     const dispatch = useDispatch();
-    const [showPassword, setShowPassword] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm({
         mode: 'onChange',
 });
