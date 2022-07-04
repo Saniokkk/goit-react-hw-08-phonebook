@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Notify } from 'notiflix';
 import { useSelector, useDispatch } from 'react-redux';
 import { createContact } from 'redux/contacts/contactsOperations';

@@ -1,8 +1,3 @@
-import PropTypes from 'prop-types'; 
-import { Button } from 'components/Button';
-import { InputFilter } from './InputFilter';
-import { Section } from 'components/Section';
-import style from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getContactList, removeContact } from 'redux/contacts/contactsOperations';
@@ -12,7 +7,6 @@ import { Typography } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import CommentIcon from '@mui/icons-material/Comment';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -99,34 +93,3 @@ export const ContactList = () => {
     </>
   )
 }
-
-
-// export const ContactList = ({ value, handleBtn, onChange, filterContacts }) => {
-//   return (
-//     <Section title="Contacts">
-//       <InputFilter name="filter" value={value} onChange={onChange} />
-//       <ul>
-//         {filterContacts.map(({ name, phone, id }) => {
-//           return (
-//             <li key={id} className={style.contact} id={id}>
-//               {name}: {phone}
-//               <Button
-//                 type="button"
-//                 className={style.remBtn}
-//                 name="Delete"
-//                 handleBtn={handleBtn}
-//               />
-//             </li>
-//           );
-//         })}
-//       </ul>
-//     </Section>
-//   );
-// };
-
-// ContactList.propTypes = {
-//   value: PropTypes.string.isRequired,
-//   handleBtn: PropTypes.func.isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   filterContacts: PropTypes.array.isRequired,
-// };
